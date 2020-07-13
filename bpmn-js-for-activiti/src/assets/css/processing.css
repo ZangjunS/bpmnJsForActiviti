@@ -1,0 +1,8 @@
+.diagram-processed {
+    stroke: #76664d solid 2px;
+}
+
+.diagram-processing {
+    stroke: #9d2932;
+    stroke-width: 2px;
+}
