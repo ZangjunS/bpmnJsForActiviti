@@ -1,8 +1,13 @@
 <template>
-  <div class="containers">
-    <div class="canvas" ref="canvas"></div>
-    <div id="js-properties-panel"></div>
-    <modelOutPutCpt :model="model"></modelOutPutCpt>
+  <div>
+    <div class="panel">
+      <div style="font-size:20px">{{model.name}}:{{model.id}}</div>
+      <div class="containers">
+        <div class="canvas" ref="canvas"></div>
+        <div id="js-properties-panel"></div>
+        <modelOutPutCpt id="model-out-put-com" :model="model"></modelOutPutCpt>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,21 +46,18 @@ export default {
       bpmnModeler: null,
       container: null,
       canvas: null,
-      model: null
+      model: { name: "digram", modelXml: defaultXmlStr }
     };
   },
   // 方法集合
   methods: {
     async init() {
-      this.model = this.$props.propModel;
-      if (this.model == null) {
-        this.model = { modelXml: defaultXmlStr };
+      if (this.$props.propModel != null) {
+        this.model = BpmnInfs.fixModel(this.$props.propModel);
       }
-      this.model = BpmnInfs.fixModel(this.model);
       this.initBpmn();
       this.createNewDiagram();
       this.addModelerListener();
-      // this.model = this.getModelData();
     },
     initBpmn() {
       // 获取到属性ref为“canvas”的dom节点
@@ -137,14 +139,51 @@ export default {
 </script>
 
 
-<style scoped>
+<style  >
+.panel {
+  /* width: 100%;
+  height: 100%; */
+}
 .containers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-content: space-between;
   background-color: #ffffff;
   width: 100%;
-  height: 80vh;
+  height: 90vh;
 }
 .canvas {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 90%;
+  /* float: left; */
+  flex: none;
+  /* margin-right: 0%; */
+  border: gray solid 1px;
+  border-radius: 15px;
+}
+#js-properties-panel {
+  /* position: fixed; 
+    right:0; 
+    top: 0; */
+  flex: 1;
+  /* justify-content: flex-end; */
+  /* margin-left: auto; */
+  /* margin-right: 0%; */
+  min-width: 20%;
+  border: slategray solid;
+  border-radius: 15px;
+  overflow-y: scroll;
+  height: 90%;
+  width: 20%;
+}
+#model-out-put-com {
+  /* display: flex; */
+  /* align-items: flex-end;
+  justify-content: flex-end; */
+  /* flex: 1;
+   justify-content: flex-end;
+  align-items: flex-end; */
+  /* justify-content: flex-end; */
 }
 </style>

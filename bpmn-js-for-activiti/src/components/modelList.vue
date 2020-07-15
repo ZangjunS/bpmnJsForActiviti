@@ -1,33 +1,42 @@
 <template>
   <div>
-    <div>
-      <el-button type="primary" icon="el-icon-search">搜索</el-button>
-      <el-button type="success">新流程模型</el-button>
-      <el-button type="primary" icon="el-icon-upload el-icon--right">打开文件</el-button>
-      <el-input placeholder="请输入内容" v-model="modelInputUrl" style="width:200px">
-        <template slot="prepend">Http://</template>
-      </el-input>
-      <el-button type="primary" @click="openModelEdtor()">来自网络</el-button>
+    <div id="model-origin-buttons">
+      <div>
+        <el-input placeholder="搜索框" style="width:150px"></el-input>
+        <el-button type="primary">搜索模型</el-button>
+      </div>
+      <div>
+        <el-input placeholder="请输入内容" v-model="modelInputUrl" style="width:150px">
+          <template slot="prepend" style="width:20px">Http://</template>
+        </el-input>
+        <el-button type="primary" @click="openModelEdtor()">来自网络</el-button>
+      </div>
+      <div>
+        <el-button type="success">新流程模型</el-button>
+        <el-button type="primary" icon="el-icon-upload ">打开文件</el-button>
+      </div>
     </div>
     <div class id="modelList">
-      <el-row>
-        <el-col>
-          <el-card v-for="model in modelList" :key="model.id" :body-style="{ padding: '0px' }">
-            <img
-              v-bind:src="model.src"
-              onerror="this.src= '/static/logo.png'; this.onerror = null;"
-            />
-            <div style="padding: 14px;">
-              <span>{{model.id}}</span>
-              <span>{{model.key}}</span>
-              <span>{{model.des}}</span>
-              <div class="bottom clearfix">
-                <el-button type="text" class="button">修改</el-button>
+      <div class="vertical-list">
+        <el-row v-for="model in modelList" :key="model.id">
+          <el-col>
+            <el-card :body-style="{ padding: '0px' }">
+              <img
+                v-bind:src="model.src"
+                onerror="this.src= '/static/logo.png'; this.onerror = null;"
+              />
+              <div style="padding: 14px;">
+                <span>{{model.id}}</span>
+                <span>{{model.key}}</span>
+                <span>{{model.des}}</span>
+                <div class="bottom clearfix">
+                  <el-button type="text" class="button">修改</el-button>
+                </div>
               </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +91,11 @@ export default {
 };
 </script>
 <style>
+.vertical-list {
+  overflow-y: scroll;
+  height: 600px;
+}
+
 #modelList .el-col {
   display: flex;
   flex-wrap: wrap;
@@ -94,7 +108,7 @@ export default {
 }
 #modelList img {
   position: relative;
-  width: 100px;
+  width: 200px;
   /* height: 0; */
   /* padding-bottom: 100%; */
 }

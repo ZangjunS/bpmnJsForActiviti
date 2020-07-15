@@ -27,11 +27,7 @@ const routes = [{
     component: () =>
         import('./../components/panel/panel')
 },
-{
-    path: '/event',
-    component: () =>
-        import('./../components/event')
-}
+ 
 ]
 
 export default new Router({

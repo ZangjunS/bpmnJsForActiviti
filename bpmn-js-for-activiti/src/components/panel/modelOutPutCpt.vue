@@ -5,7 +5,7 @@
         <el-button @click="saveDiagram()" type="primary" icon="el-icon-download">bpmn</el-button>
       </li>
       <li>
-        <el-button @click="saveDiagram()" type="primary" icon="el-icon-download">svg</el-button>
+        <el-button @click="saveSvg()" type="primary" icon="el-icon-download">svg</el-button>
       </li>
       <li>
         <el-button @click="saveToBackend()" type="primary" icon="el-icon-upload2">保存到后端</el-button>
@@ -52,7 +52,6 @@ export default {
       var diagramName = this.model.getName();
       this.setEncoded(diagramName + ".bpmn", this.model.modelXml);
     },
-    // 当图发生改变的时候会调用这个函数，这个data就是图的xml
     setEncoded(name, data) {
       var link = this.$refs.localDownLink;
       // 把xml转换为URI，下载要用到的
@@ -71,22 +70,14 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style  >
 .buttons {
-  position: absolute;
-  left: 20px;
-  bottom: 20px;
+   
+  
 }
 .buttons li {
   display: inline-block;
   margin: 5px;
 }
-.buttons li a {
-  color: #999;
-  background: #eee;
-  cursor: pointer;
-  padding: 8px;
-  border: 1px solid #ccc;
-  text-decoration: none;
-}
+ 
 </style>

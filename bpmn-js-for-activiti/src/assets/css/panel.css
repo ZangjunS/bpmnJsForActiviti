@@ -12,17 +12,7 @@
     border-radius: 15px;
 }
 
-#js-properties-panel {
-    position: absolute;
-    right: 0;
-    top: 0;
-    border: slategray solid;
-    border-radius: 25px;
-    margin-top: 10vh;
-    overflow-y: scroll;
-    height: 80vh;
-    width: 20vw;
-}
+
 
 .bpp-properties-panel {
     width: 100%;
