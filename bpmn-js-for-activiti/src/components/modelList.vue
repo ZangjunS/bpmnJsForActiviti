@@ -13,14 +13,16 @@
       </div>
       <div>
         <el-button type="success">新流程模型</el-button>
-        <el-button type="primary" icon="el-icon-upload ">打开文件</el-button>
+
+        <el-button type="primary" icon="el-icon-upload" @click="openFileWin()"></el-button>
+        <input type="file" @change="pushModelByFile()" ref="fileinput" />
       </div>
     </div>
     <div class id="modelList">
       <div class="vertical-list">
         <el-row v-for="model in modelList" :key="model.id">
           <el-col>
-            <el-card :body-style="{ padding: '0px' }">
+            <el-card :body-style="{ padding: '0px',display:'block' }">
               <img
                 v-bind:src="model.src"
                 onerror="this.src= '/static/logo.png'; this.onerror = null;"
@@ -59,33 +61,42 @@ export default {
           src: "images/2.jpg",
           des: "这是第二个描述",
           id: 198
-        },
-        {
-          src: "images/3.jpg",
-          des: "这是第三个描述",
-          id: 211
-        },
-        {
-          src: "images/1.jpg",
-          des: "这是第一个描述",
-          id: 199
-        },
-        {
-          src: "images/3.jpg",
-          des: "这是第二个描述",
-          id: 112
-        },
-        {
-          src: "images/3.jpg",
-          des: "这是第三个描述",
-          id: 423
         }
       ]
     };
   },
   methods: {
-    openModelEdtor() {
-      console.log(SysLinks.getSysLink().sysFlag);
+    readFileFromInputPro(input) {
+      var file = input.files[0];
+      return new Promise(function(resolve, reject) {
+        let reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function() {
+          resolve(this.result);
+        };
+      });
+    },
+
+    openFileWin() {
+      this.$refs.fileinput.dispatchEvent(new MouseEvent("click"));
+    },
+    emitModel(model) {
+      console.log("emit ");
+      console.log(model);
+      this.$emit("emitmodel", model);
+    },
+    async pushModelByFile() {
+      var input = this.$refs.fileinput;
+      var fileName = input.files[0].name.substring(
+        input.files[0].name.lastIndexOf("."),
+        -1
+      );
+      var fileXml = await this.readFileFromInputPro(this.$refs.fileinput);
+      this.emitModel({
+        name: fileName + "_new",
+        id: Math.random(),
+        modelXml: fileXml
+      });
     }
   }
 };
@@ -107,8 +118,8 @@ export default {
   border: 1px solid #eee;
 }
 #modelList img {
-  position: relative;
-  width: 200px;
+  vertical-align: top/middle;
+  /* width: 100%; */
   /* height: 0; */
   /* padding-bottom: 100%; */
 }

@@ -49,14 +49,22 @@ export default {
       model: { name: "digram", modelXml: defaultXmlStr }
     };
   },
+  watch: {
+    propModel: {
+      handler(newVal, oldVal) {
+        if (this.$props.propModel != null) {
+          this.model = BpmnInfs.fixModel(this.$props.propModel);
+        }
+        console.info("value changed 2", newVal.id);
+        this.createNewDiagram();
+      }
+    }
+  },
   // 方法集合
   methods: {
     async init() {
-      if (this.$props.propModel != null) {
-        this.model = BpmnInfs.fixModel(this.$props.propModel);
-      }
       this.initBpmn();
-      this.createNewDiagram();
+      // this.createNewDiagram();
       this.addModelerListener();
     },
     initBpmn() {

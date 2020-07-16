@@ -10,12 +10,12 @@
       <li>
         <el-button @click="saveToBackend()" type="primary" icon="el-icon-upload2">保存到后端</el-button>
       </li>
-      <li>
+      <!-- <li>
         <el-input placeholder="请输入内容" v-model="modelOutputBackendUrl" style="width:200px">
           <template slot="prepend">Http://</template>
         </el-input>
         <el-button @click="saveToUrl()" type="primary" icon="el-icon-cloudy">保存到接口</el-button>
-      </li>
+      </li> -->
     </ul>
     <a ref="localDownLink" href="javascript:" title></a>
   </div>

@@ -11,8 +11,8 @@
     </div>
 
     <div id="model-opt-div">
-      <modelList id="modelList-com"></modelList>
-      <bpmnpanel id="panel-com"></bpmnpanel>
+      <modelList id="modelList-com" @emitmodel="sendModel"></modelList>
+      <bpmnpanel id="panel-com" :propModel="model"></bpmnpanel>
     </div>
   </div>
 </template>
@@ -23,12 +23,18 @@ export default {
   components: { modelList, bpmnpanel },
   data() {
     return {
+      model: {},
       setttings: {
         isSetting: false
       }
     };
   },
   methods: {
+    sendModel(amodel) {
+      console.log("get model")
+      console.log(amodel)
+      this.model = amodel;
+    },
     openSetting() {
       this.setttings.isSetting = !this.setttings.isSetting;
     }
