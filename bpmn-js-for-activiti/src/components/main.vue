@@ -2,7 +2,7 @@
   <div id="main">
     <div id="main-setting">
       <i class="el-icon-setting" @click="openSetting()" style="font-size:20px"></i>
-      <div id="main-setting-inputs" style=" width:200px " v-show="setttings.isSetting">
+      <div id="main-setting-inputs" v-show="setttings.isSetting" style=" width:200px ">
         <el-input style="width:200px"></el-input>
         <el-input style="width:200px"></el-input>
         <el-input style="width:200px"></el-input>
@@ -11,7 +11,11 @@
     </div>
 
     <div id="model-opt-div">
-      <modelList id="modelList-com" @emitmodel="sendModel"></modelList>
+       
+        <modelList id="modelList-com"   @emitmodel="sendModel"></modelList>
+        
+       
+
       <bpmnpanel id="panel-com" :propModel="model"></bpmnpanel>
     </div>
   </div>
@@ -25,15 +29,17 @@ export default {
     return {
       model: {},
       setttings: {
-        isSetting: false
+        isSetting: false,
+        isShowList: true
       }
     };
   },
   methods: {
     sendModel(amodel) {
-      console.log("get model")
-      console.log(amodel)
       this.model = amodel;
+    },
+    openList() {
+      this.setttings.isShowList = !this.setttings.isShowList;
     },
     openSetting() {
       this.setttings.isSetting = !this.setttings.isSetting;

@@ -13,6 +13,11 @@ const routes = [{
 //         import('./../App')
 // },
 {
+    path: '/fold',
+    component: () =>
+        import('./../components/foldtest')
+},
+{
     path: '/main',
     component: () =>
         import('./../components/main')
@@ -31,6 +36,6 @@ const routes = [{
 ]
 
 export default new Router({
-    mode: 'history',
+    mode: 'hash',
     routes
 })

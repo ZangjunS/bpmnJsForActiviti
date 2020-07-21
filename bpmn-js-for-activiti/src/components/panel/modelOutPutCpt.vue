@@ -15,7 +15,7 @@
           <template slot="prepend">Http://</template>
         </el-input>
         <el-button @click="saveToUrl()" type="primary" icon="el-icon-cloudy">保存到接口</el-button>
-      </li> -->
+      </li>-->
     </ul>
     <a ref="localDownLink" href="javascript:" title></a>
   </div>
@@ -27,13 +27,13 @@ export default {
   props: {
     model: Object
   },
-  mounted() {
-  },
+  mounted() {},
   data() {
     return { diagramName: "diagram", modelOutputBackendUrl: "" };
   },
   methods: {
     saveToBackend() {
+      console.log(this.$root.rootValue);
       if (this.modelOutputBackendUrl == "") {
         this.modelOutputBackendUrl = SysLinks.getSysLink().sysParamOutUrl;
       }
@@ -72,12 +72,9 @@ export default {
 </script>
 <style  >
 .buttons {
-   
-  
 }
 .buttons li {
   display: inline-block;
   margin: 5px;
 }
- 
 </style>

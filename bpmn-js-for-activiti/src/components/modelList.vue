@@ -1,44 +1,49 @@
 <template>
   <div>
-    <div id="model-origin-buttons">
-      <div>
-        <el-input placeholder="搜索框" style="width:150px"></el-input>
-        <el-button type="primary">搜索模型</el-button>
-      </div>
-      <div>
-        <el-input placeholder="请输入内容" v-model="modelInputUrl" style="width:150px">
-          <template slot="prepend" style="width:20px">Http://</template>
-        </el-input>
-        <el-button type="primary" @click="openModelEdtor()">来自网络</el-button>
-      </div>
-      <div>
-        <el-button type="success">新流程模型</el-button>
+    <div class="model-controller">
+      <div class="open-fold-data" v-show="isComOpen">
+        <div id="model-origin-buttons">
+          <div>
+            <el-input placeholder="搜索框" style="width:150px"></el-input>
+            <el-button type="primary">搜索模型</el-button>
+          </div>
+          <div>
+            <el-input placeholder="请输入内容" v-model="modelInputUrl" style="width:150px">
+              <template slot="prepend" style="width:20px">Http://</template>
+            </el-input>
+            <el-button type="primary" @click="openModelEdtor()">来自网络</el-button>
+          </div>
+          <div>
+            <el-button type="success">新流程模型</el-button>
 
-        <el-button type="primary" icon="el-icon-upload" @click="openFileWin()"></el-button>
-        <input type="file" @change="pushModelByFile()" ref="fileinput" />
+            <el-button type="primary" icon="el-icon-upload" @click="openFileWin()"></el-button>
+            <input type="file" @change="pushModelByFile()" ref="fileinput" />
+          </div>
+        </div>
+        <div class id="modelList">
+          <div class="vertical-list">
+            <el-row v-for="model in modelList" :key="model.id">
+              <el-col>
+                <el-card :body-style="{ padding: '0px',display:'block' }">
+                  <img
+                    v-bind:src="model.src"
+                    onerror="this.src= './static/logo.png'; this.onerror = null;"
+                  />
+                  <div style="padding: 14px;">
+                    <span>{{model.id}}</span>
+                    <span>{{model.key}}</span>
+                    <span>{{model.des}}</span>
+                    <div class="bottom clearfix">
+                      <el-button type="text" class="button">修改</el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class id="modelList">
-      <div class="vertical-list">
-        <el-row v-for="model in modelList" :key="model.id">
-          <el-col>
-            <el-card :body-style="{ padding: '0px',display:'block' }">
-              <img
-                v-bind:src="model.src"
-                onerror="this.src= '/static/logo.png'; this.onerror = null;"
-              />
-              <div style="padding: 14px;">
-                <span>{{model.id}}</span>
-                <span>{{model.key}}</span>
-                <span>{{model.des}}</span>
-                <div class="bottom clearfix">
-                  <el-button type="text" class="button">修改</el-button>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
-      </div>
+      <i class="com-fold el-icon-s-fold" @click="openFold()" style=" font-size: 20px;"></i>
     </div>
   </div>
 </template>
@@ -50,6 +55,7 @@ export default {
   },
   data() {
     return {
+      isComOpen: true,
       modelInputUrl: "",
       modelList: [
         {
@@ -66,6 +72,9 @@ export default {
     };
   },
   methods: {
+    openFold() {
+      this.isComOpen = !this.isComOpen;
+    },
     readFileFromInputPro(input) {
       var file = input.files[0];
       return new Promise(function(resolve, reject) {
@@ -102,6 +111,13 @@ export default {
 };
 </script>
 <style>
+.model-controller {
+ 
+  display: flex;
+}
+.open-fold-data{
+  flex: auto;
+}
 .vertical-list {
   overflow-y: scroll;
   height: 600px;

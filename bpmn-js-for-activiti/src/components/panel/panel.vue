@@ -3,7 +3,7 @@
     <div class="panel">
       <div style="font-size:20px">{{model.name}}:{{model.id}}</div>
       <div class="containers">
-        <div class="canvas" ref="canvas"></div>
+        <div class="canvas" ref="canvas" @keydown.ctrl.native="ctrlzBack"></div>
         <div id="js-properties-panel"></div>
         <modelOutPutCpt id="model-out-put-com" :model="model"></modelOutPutCpt>
       </div>
@@ -46,7 +46,8 @@ export default {
       bpmnModeler: null,
       container: null,
       canvas: null,
-      model: { name: "digram", modelXml: defaultXmlStr }
+      model: { name: "digram", modelXml: defaultXmlStr },
+      backupModel: {}
     };
   },
   watch: {
@@ -123,6 +124,7 @@ export default {
         that.bpmnModeler.on(event, e => {
           var elementRegistry = bpmnjs.get("elementRegistry");
           var shape = e.element ? elementRegistry.get(e.element.id) : e.shape;
+          that.backupModel = that.model;
           that.model = that.getModelData();
           // console.log(event, e);
           // console.log(shape);
@@ -140,6 +142,9 @@ export default {
       });
       return BpmnInfs.fixModel(this.model);
     }
+  },
+  ctrlzBack() {
+    console.log("callback");
   },
   // 计算属性
   computed: {}

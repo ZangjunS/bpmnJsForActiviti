@@ -11,7 +11,7 @@ export default {
   // components: {Main},
 
   data() {
-    return {};
+    return { rootValue: "im root" };
   }
 };
 </script>
@@ -29,5 +29,5 @@ export default {
 }
 body {
   margin: 0;
-} 
+}
 </style>
