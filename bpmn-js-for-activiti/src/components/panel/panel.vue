@@ -24,7 +24,6 @@ import propertiesProviderModule from "@/components/workflow/properties-panel/pro
 import activitiModdleDescriptor from "@/../resources/activiti.json";
 import customTranslate from "@/components/workflow/customTranslate/customTranslate";
 import customControlsModule from "@/components/workflow/customControls";
-import { defaultXmlStr } from "@/../resources/defaultXmlStr";
 var customTranslateModule = {
   translate: ["value", customTranslate]
 };
@@ -46,7 +45,7 @@ export default {
       bpmnModeler: null,
       container: null,
       canvas: null,
-      model: { name: "digram", modelXml: defaultXmlStr },
+      model: {},
       backupModel: {}
     };
   },

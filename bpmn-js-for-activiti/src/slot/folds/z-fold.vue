@@ -30,7 +30,7 @@ export default {
         flexDirection: (this.foldDir.startsWith("v") ? "column" : "row")
                       + (this.foldDir.endsWith("r") ? "-reverse"  : "" )
       },
-      isShow: this.$props.defaultShow == true
+      isShow: this.defaultShow == true
     };
   },
   mounted() {
@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style>
+ <style   scoped>
 .fold {
 }
 </style>

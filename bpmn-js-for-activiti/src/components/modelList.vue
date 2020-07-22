@@ -14,10 +14,10 @@
             <el-button type="primary" @click="openModelEdtor()">来自网络</el-button>
           </div>
           <div>
-            <el-button type="success">新流程模型</el-button>
+            <el-button type="success" @click="pushModelNew()">新流程模型</el-button>
 
             <el-button type="primary" icon="el-icon-upload" @click="openFileWin()"></el-button>
-            <input type="file" @change="pushModelByFile()" ref="fileinput" />
+            <input hidden type="file" @change="pushModelByFile()" ref="fileinput" />
           </div>
         </div>
         <div class id="modelList">
@@ -48,10 +48,9 @@
   </div>
 </template>
 <script>
-import SysLinks from "@/classes/z-server-vue/core/FrontLinkSysParamInf";
+import { defaultXmlStr } from "@/../resources/defaultXmlStr";
 export default {
   mounted() {
-    SysLinks.getSysLinkFromVue(this);
   },
   data() {
     return {
@@ -72,6 +71,9 @@ export default {
     };
   },
   methods: {
+    createModelId() {
+      return Math.random();
+    },
     openFold() {
       this.isComOpen = !this.isComOpen;
     },
@@ -103,19 +105,25 @@ export default {
       var fileXml = await this.readFileFromInputPro(this.$refs.fileinput);
       this.emitModel({
         name: fileName + "_new",
-        id: Math.random(),
+        id: this.createModelId(),
         modelXml: fileXml
+      });
+    },
+    pushModelNew() {
+      this.emitModel({
+        name: "diagram" + "",
+        id: this.createModelId(),
+        modelXml: defaultXmlStr
       });
     }
   }
 };
 </script>
-<style>
+<style   scoped>
 .model-controller {
- 
   display: flex;
 }
-.open-fold-data{
+.open-fold-data {
   flex: auto;
 }
 .vertical-list {

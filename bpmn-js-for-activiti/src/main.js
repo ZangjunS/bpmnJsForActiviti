@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 Vue.config.productionTip = false
 import './assets/css/app.css'// app
-import 'element-ui/lib/theme-chalk/index.css'; 
+import 'element-ui/lib/theme-chalk/index.css';
 // 以下为bpmn工作流绘图工具的样式
 // import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css' // 右边工具栏样式
 import './assets/css/panel.css'// 右边工具栏样式
@@ -22,8 +22,8 @@ import ElementUI from 'element-ui';
 Vue.use(ElementUI);
 new Vue({
     router,
-    data(){
-        return {rootValue:"this root"}
+    data() {
+        return { rootValue: "this root" }
     },
     render: h => h(App),
 }).$mount('#app')

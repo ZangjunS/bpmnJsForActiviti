@@ -32,7 +32,7 @@ const routes = [{
     component: () =>
         import('./../components/panel/panel')
 },
- 
+
 ]
 
 export default new Router({

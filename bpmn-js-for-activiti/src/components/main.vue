@@ -1,21 +1,7 @@
 <template>
   <div id="main">
-    <div id="main-setting">
-      <i class="el-icon-setting" @click="openSetting()" style="font-size:20px"></i>
-      <div id="main-setting-inputs" v-show="setttings.isSetting" style=" width:200px ">
-        <el-input style="width:200px"></el-input>
-        <el-input style="width:200px"></el-input>
-        <el-input style="width:200px"></el-input>
-        <el-input style="width:200px"></el-input>
-      </div>
-    </div>
-
     <div id="model-opt-div">
-       
-        <modelList id="modelList-com"   @emitmodel="sendModel"></modelList>
-        
-       
-
+      <modelList id="modelList-com" @emitmodel="sendModel"></modelList>
       <bpmnpanel id="panel-com" :propModel="model"></bpmnpanel>
     </div>
   </div>
@@ -23,26 +9,21 @@
 <script>
 import modelList from "@/components/modelList";
 import bpmnpanel from "@/components/panel/panel";
+import sysSetting from "@/classes/z-server-vue/core/FrontLinkSysParamInf.vue";
 export default {
   components: { modelList, bpmnpanel },
+  mounted() {
+    var initSetting = sysSetting.getSysLinkFromVue(this);
+    this.$emit("initSetting", initSetting);
+  },
   data() {
     return {
-      model: {},
-      setttings: {
-        isSetting: false,
-        isShowList: true
-      }
+      model: {}
     };
   },
   methods: {
     sendModel(amodel) {
       this.model = amodel;
-    },
-    openList() {
-      this.setttings.isShowList = !this.setttings.isShowList;
-    },
-    openSetting() {
-      this.setttings.isSetting = !this.setttings.isSetting;
     }
   }
 };
