@@ -3,7 +3,7 @@
     <div class="panel">
       <div style="font-size:20px">{{model.name}}:{{model.id}}</div>
       <div class="containers">
-        <div class="canvas" ref="canvas" @keydown.ctrl.native="ctrlzBack"></div>
+        <div class="canvas" ref="canvas" @keydown.left="ctrlzBack"></div>
         <div id="js-properties-panel"></div>
         <modelOutPutCpt id="model-out-put-com" :model="model"></modelOutPutCpt>
       </div>
@@ -38,6 +38,12 @@ export default {
   // 生命周期 - 载入后, Vue 实例挂载到实际的 DOM 操作完成，一般在该过程进行 Ajax 交互
   mounted() {
     this.init();
+    document.onkeydown = e => {
+      // console.log(e);
+      if (e.keyCode == 90 && e.ctrlKey == true) {
+        this.ctrlzBack();
+      }
+    };
   },
   data() {
     return {
@@ -46,7 +52,9 @@ export default {
       container: null,
       canvas: null,
       model: {},
-      backupModel: {}
+      backupModel: {},
+      drawingTracks: [],
+      panelDrawing: false
     };
   },
   watch: {
@@ -90,20 +98,19 @@ export default {
       });
     },
     async createNewDiagram() {
-      this.transformCanvas(this.model.modelXml);
+      var res = this.transformCanvas(this.model.modelXml);
       // 让图能自适应屏幕
       var canvas = this.bpmnModeler.get("canvas");
       canvas.zoom("fit-viewport");
+      return res;
     },
     // 将字符串转换成图并渲染
     transformCanvas(bpmnXmlStr) {
+      this.panelDrawing = true;
       this.bpmnModeler.importXML(bpmnXmlStr, err => {
-        if (err) {
-          alert(err);
-        } else {
-          console.log("success");
-        }
+        err ? console.log(err) : (this.panelDrawing = false);
       });
+      return true;
     },
 
     addModelerListener() {
@@ -113,37 +120,64 @@ export default {
       // 'shape.removed'
       const events = [
         "commandStack.changed",
-        "shape.added",
-        "shape.move.end",
-        "connect.end",
-        "connection.create",
-        "connection.move"
+        // "shape.added",
+        // "shape.move.end",
+        // "shape.move.start",
+        // "shape.removed",
+        // "connect.end",
+        // "connection.added",
+        // "connection.removed",
+        // "connection.changed",
+        // "connectionSegment.move.end"
       ];
       events.forEach(function(event) {
-        that.bpmnModeler.on(event, e => {
-          var elementRegistry = bpmnjs.get("elementRegistry");
-          var shape = e.element ? elementRegistry.get(e.element.id) : e.shape;
-          that.backupModel = that.model;
-          that.model = that.getModelData();
-          // console.log(event, e);
-          // console.log(shape);
-          // console.log(that.model);
+        that.bpmnModeler.on(event, async e => {
+          // var elementRegistry = bpmnjs.get("elementRegistry");
+          // var shape = e.element ? elementRegistry.get(e.element.id) : e.shape;
+          if (!that.panelDrawing) {
+            that.logTrack(that.model.modelXml);
+            that.model = await that.getModelData();
+            // console.log(event, e);
+            // console.log(shape);
+          }
         });
       });
     },
-    getModelData() {
+    async getModelData() {
+      var baseModel = BpmnInfs.fixModel(this.model);
       this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
-        this.model.modelXml = err ? "" : xml;
+            // console.log("done",new Date().getTime());
+        baseModel.modelXml = err ? "" : xml;
       });
       // 传给bpmn原型的saveSVG函数调用
       this.bpmnModeler.saveSVG({ format: true }, (err, xml) => {
-        this.model.modelSvg = err ? "" : xml;
+        baseModel.modelSvg = err ? "" : xml;
       });
-      return BpmnInfs.fixModel(this.model);
+      await this.sleep(5);
+      return baseModel;
+    },
+    logTrack(track) {
+      if (track == this.drawingTracks[this.drawingTracks.length - 1]) {
+        return;
+      }
+      this.drawingTracks.push(track);
+      if (this.drawingTracks.length > 10) {
+        this.drawingTracks.shift();
+      }
+    },
+    async ctrlzBack() {
+      if (this.drawingTracks.length == 0) {
+        return;
+      }
+      console.log("callback");
+      // console.log(this.drawingTracks);
+      this.model.modelXml = this.drawingTracks.pop();
+      // console.log("locked");
+      this.createNewDiagram();
+    },
+    sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
     }
-  },
-  ctrlzBack() {
-    console.log("callback");
   },
   // 计算属性
   computed: {}
@@ -152,10 +186,6 @@ export default {
 
 
 <style  >
-.panel {
-  /* width: 100%;
-  height: 100%; */
-}
 .containers {
   display: flex;
   flex-wrap: wrap;
@@ -188,14 +218,5 @@ export default {
   overflow-y: scroll;
   height: 90%;
   width: 20%;
-}
-#model-out-put-com {
-  /* display: flex; */
-  /* align-items: flex-end;
-  justify-content: flex-end; */
-  /* flex: 1;
-   justify-content: flex-end;
-  align-items: flex-end; */
-  /* justify-content: flex-end; */
 }
 </style>
