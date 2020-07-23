@@ -5,18 +5,18 @@
         <div id="model-origin-buttons">
           <div>
             <el-input placeholder="搜索框" style="width:150px"></el-input>
-            <el-button type="primary">搜索模型</el-button>
+            <el-button type="primary" icon="el-icon-search"></el-button>
           </div>
           <div>
             <el-input placeholder="请输入内容" v-model="modelInputUrl" style="width:150px">
               <template slot="prepend" style="width:20px">Http://</template>
             </el-input>
-            <el-button type="primary" @click="openModelEdtor()">来自网络</el-button>
+            <el-button type="primary" @click="openModelEdtor()" icon="el-icon-lightning"> </el-button>
           </div>
           <div>
-            <el-button type="success" @click="pushModelNew()">新流程模型</el-button>
+            <el-button type="success" @click="pushModelNew()">new</el-button>
 
-            <el-button type="primary" icon="el-icon-upload" @click="openFileWin()"></el-button>
+            <el-button type="primary" icon="el-icon-folder-opened" @click="openFileWin()"></el-button>
             <input hidden type="file" @change="pushModelByFile()" ref="fileinput" />
           </div>
         </div>
@@ -50,8 +50,7 @@
 <script>
 import { defaultXmlStr } from "@/../resources/defaultXmlStr";
 export default {
-  mounted() {
-  },
+  mounted() {},
   data() {
     return {
       isComOpen: true,

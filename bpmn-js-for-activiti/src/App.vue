@@ -9,6 +9,12 @@
           <el-input v-model="sysSetting.sysMethod" style="width:200px"></el-input>导入接口
           <el-input v-model="sysSetting.sysParamInUrl" style="width:200px"></el-input>导出接口
           <el-input v-model="sysSetting.sysParamOutUrl" style="width:200px"></el-input>
+          <router-link to="/mainProcessView">
+            <button class="button">跳转到流程查看器</button>
+          </router-link>
+          <router-link to="/mainDrawingBoard">
+            <button class="button">跳转到流程编辑器</button>
+          </router-link>
         </div>
       </z-fold>
     </div>

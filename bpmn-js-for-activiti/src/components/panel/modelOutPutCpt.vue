@@ -2,13 +2,17 @@
   <div id="modelOutPutPanel">
     <ul class="buttons">
       <li>
-        <el-button @click="saveDiagram()" type="primary" icon="el-icon-download">bpmn</el-button>
+        <el-button @click="saveDiagram()" type="primary" icon="el-icon-download">
+          <i class="el-icon-document"></i>
+        </el-button>
       </li>
       <li>
-        <el-button @click="saveSvg()" type="primary" icon="el-icon-download">svg</el-button>
+        <el-button @click="saveSvg()" type="primary" icon="el-icon-download ">
+          <i class="el-icon-picture-outline"></i>
+        </el-button>
       </li>
       <li>
-        <el-button @click="saveToBackend()" type="primary" icon="el-icon-upload2">保存到后端</el-button>
+        <el-button @click="saveToBackend()" type="primary" icon="el-icon-upload">保存到后端</el-button>
       </li>
       <!-- <li>
         <el-input placeholder="请输入内容" v-model="modelOutputBackendUrl" style="width:200px">

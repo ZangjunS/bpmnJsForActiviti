@@ -5,14 +5,18 @@ Vue.use(Router)
 
 const routes = [{
     path: '/',
-    redirect: '/main'
-}, 
+    redirect: '/mainDrawingBoard'
+},
 {
-    path: '/main',
+    path: '/mainDrawingBoard',
     component: () =>
-        import('./../components/main')
+        import('./../components/panel/mainPanel')
+},
+{
+    path: '/mainProcessView',
+    component: () =>
+        import('./../components/processview/mainView')
 }
-
 ]
 
 export default new Router({

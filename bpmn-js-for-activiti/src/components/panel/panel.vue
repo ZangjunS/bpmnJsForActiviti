@@ -5,6 +5,14 @@
       <div class="containers">
         <div class="canvas" ref="canvas" @keydown.left="ctrlzBack"></div>
         <div id="js-properties-panel"></div>
+        <div class="buttons">
+          <li>
+            <ul>
+              <el-button @click="fixZoom()" type="primary" icon="el-icon-aim">重置</el-button>
+            </ul>
+          </li>
+        </div>
+
         <modelOutPutCpt id="model-out-put-com" :model="model"></modelOutPutCpt>
       </div>
     </div>
@@ -19,11 +27,11 @@ import ModelOutPutCpt from "./modelOutPutCpt";
 import axios from "axios";
 import BpmnModeler from "bpmn-js/lib/Modeler";
 import BpmnInfs from "@/classes/bpmn/BpmnInfs";
-import propertiesPanelModule from "@/components/workflow/properties-panel";
-import propertiesProviderModule from "@/components/workflow/properties-panel/provider/activiti";
+import propertiesPanelModule from "@/components/panel/workflow/properties-panel";
+import propertiesProviderModule from "@/components/panel/workflow/properties-panel/provider/activiti";
 import activitiModdleDescriptor from "@/../resources/activiti.json";
-import customTranslate from "@/components/workflow/customTranslate/customTranslate";
-import customControlsModule from "@/components/workflow/customControls";
+import customTranslate from "@/components/panel/workflow/customTranslate/customTranslate";
+import customControlsModule from "@/components/panel/workflow/customControls";
 var customTranslateModule = {
   translate: ["value", customTranslate]
 };
@@ -31,7 +39,7 @@ export default {
   props: {
     propModel: Object
   },
-  name: "",
+  name: "panel",
   components: { ModelOutPutCpt },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created() {},
@@ -39,10 +47,7 @@ export default {
   mounted() {
     this.init();
     document.onkeydown = e => {
-      // console.log(e);
-      if (e.keyCode == 90 && e.ctrlKey == true) {
-        this.ctrlzBack();
-      }
+      this.ctrlzBack(e);
     };
   },
   data() {
@@ -59,18 +64,19 @@ export default {
   },
   watch: {
     propModel: {
-      handler(newVal, oldVal) {
-        if (this.$props.propModel != null) {
-          this.model = BpmnInfs.fixModel(this.$props.propModel);
+      handler(newModel, oldVal) {
+        if (newModel != null) {
+          this.model = BpmnInfs.fixModel(newModel);
         }
-        console.info("value changed 2", newVal.id);
+        console.info("value changed 2", newModel.id);
+        this.drawingTracks = [];
         this.createNewDiagram();
       }
     }
   },
   // 方法集合
   methods: {
-    async init() {
+    init() {
       this.initBpmn();
       // this.createNewDiagram();
       this.addModelerListener();
@@ -105,12 +111,14 @@ export default {
       return res;
     },
     // 将字符串转换成图并渲染
-    transformCanvas(bpmnXmlStr) {
+    async transformCanvas(bpmnXmlStr) {
       this.panelDrawing = true;
-      this.bpmnModeler.importXML(bpmnXmlStr, err => {
-        err ? console.log(err) : (this.panelDrawing = false);
-      });
-      return true;
+      var warnings = await this.bpmnModeler.importXML(bpmnXmlStr);
+      if (warnings.warnings.length > 0) {
+        console.log(warnings);
+      }
+      this.panelDrawing = false;
+      return warnings.warnings.length == 0;
     },
 
     addModelerListener() {
@@ -119,7 +127,7 @@ export default {
       const that = this;
       // 'shape.removed'
       const events = [
-        "commandStack.changed",
+        "commandStack.changed"
         // "shape.added",
         // "shape.move.end",
         // "shape.move.start",
@@ -132,12 +140,13 @@ export default {
       ];
       events.forEach(function(event) {
         that.bpmnModeler.on(event, async e => {
-          // var elementRegistry = bpmnjs.get("elementRegistry");
-          // var shape = e.element ? elementRegistry.get(e.element.id) : e.shape;
+          var elementRegistry = bpmnjs.get("elementRegistry");
+          var shape = e.element ? elementRegistry.get(e.element.id) : e.shape;
           if (!that.panelDrawing) {
-            that.logTrack(that.model.modelXml);
+            // that.logTrack(that.model.modelXml);
             that.model = await that.getModelData();
-            // console.log(event, e);
+            // console.log(that.model);
+            console.log(event, e);
             // console.log(shape);
           }
         });
@@ -145,15 +154,14 @@ export default {
     },
     async getModelData() {
       var baseModel = BpmnInfs.fixModel(this.model);
-      this.bpmnModeler.saveXML({ format: true }, (err, xml) => {
-            // console.log("done",new Date().getTime());
-        baseModel.modelXml = err ? "" : xml;
-      });
-      // 传给bpmn原型的saveSVG函数调用
-      this.bpmnModeler.saveSVG({ format: true }, (err, xml) => {
-        baseModel.modelSvg = err ? "" : xml;
-      });
-      await this.sleep(5);
+
+      var xmlObj = await this.bpmnModeler.saveXML({ format: true });
+      var svgObj = await this.bpmnModeler.saveSVG({ format: true });
+      baseModel.modelXml = xmlObj.xml;
+      baseModel.modelSvg = svgObj.svg;
+      // await this.sleep(5);
+      // console.log("xml", svgObj);
+      // console.log("pro xml", baseModel);
       return baseModel;
     },
     logTrack(track) {
@@ -165,18 +173,33 @@ export default {
         this.drawingTracks.shift();
       }
     },
-    async ctrlzBack() {
-      if (this.drawingTracks.length == 0) {
+    async ctrlzBack(e) {
+      if (e.keyCode == 90 && e.ctrlKey == true && e.shiftKey == true) {
+        this.bpmnModeler.get("commandStack").redo();
         return;
       }
-      console.log("callback");
+      if (e.keyCode == 90 && e.ctrlKey == true) {
+        this.bpmnModeler.get("commandStack").undo();
+      }
+      // if (1 == {1:1}[1]) {
+      //   return;
+      // }
+      // if (this.drawingTracks.length == 0) {
+      //   return;
+      // }
+      // console.log("callback");
       // console.log(this.drawingTracks);
-      this.model.modelXml = this.drawingTracks.pop();
-      // console.log("locked");
-      this.createNewDiagram();
+      // var modelXml = this.drawingTracks.pop();
+      // // console.log("locked");
+      // var success = await this.transformCanvas(modelXml);
+      // this.model = await this.getModelData();
+      // // console.log("draw success", success);
     },
     sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
+    },
+    fixZoom(value) {
+      this.bpmnModeler.get("canvas").zoom("fit-viewport");
     }
   },
   // 计算属性
@@ -197,7 +220,7 @@ export default {
 }
 .canvas {
   width: 80%;
-  height: 90%;
+  height: 95%;
   /* float: left; */
   flex: none;
   /* margin-right: 0%; */
@@ -216,7 +239,7 @@ export default {
   border: slategray solid;
   border-radius: 15px;
   overflow-y: scroll;
-  height: 90%;
+  height: 95%;
   width: 20%;
 }
 </style>

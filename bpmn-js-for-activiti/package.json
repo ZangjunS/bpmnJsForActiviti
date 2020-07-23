@@ -13,6 +13,7 @@
         "camunda-bpmn-moddle": "^4.4.0",
         "core-js": "^3.6.5",
         "element-ui": "^2.13.2",
+        "stringutil": "0.0.2",
         "vue": "^2.6.11"
     },
     "devDependencies": {
@@ -20,7 +21,7 @@
         "@vue/cli-plugin-eslint": "^4.4.6",
         "@vue/cli-service": "^4.4.6",
         "babel-eslint": "^10.1.0",
-        "bpmn-js": "^6.5.1",
+        "bpmn-js": "^7.2.1",
         "eslint": "^5.16.0",
         "eslint-plugin-vue": "^5.0.0",
         "vue-router": "^3.3.4",

@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import modelList from "@/components/modelList";
+import modelList from "@/components/panel/modelList";
 import bpmnpanel from "@/components/panel/panel";
 import sysSetting from "@/classes/z-server-vue/core/FrontLinkSysParamInf.vue";
 export default {
