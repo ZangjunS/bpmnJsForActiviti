@@ -1,65 +1,78 @@
 <template>
   <div>
     <div class="model-controller">
-      <div class="open-fold-data" v-show="isComOpen">
-        <div id="model-origin-buttons">
-          <div>
-            <el-input placeholder="搜索框" style="width:150px"></el-input>
-            <el-button type="primary" icon="el-icon-search"></el-button>
-          </div>
-          <div>
-            <el-input placeholder="请输入内容" v-model="modelInputUrl" style="width:150px">
-              <template slot="prepend" style="width:20px">Http://</template>
-            </el-input>
-            <el-button type="primary" @click="openModelEdtor()" icon="el-icon-lightning"> </el-button>
-          </div>
-          <div>
-            <el-button type="success" @click="pushModelNew()">new</el-button>
-
-            <el-button type="primary" icon="el-icon-folder-opened" @click="openFileWin()"></el-button>
-            <input hidden type="file" @change="pushModelByFile()" ref="fileinput" />
-          </div>
+      <div id="model-origin-buttons">
+        <div>
+          <el-input placeholder="搜索框" style="width:150px"></el-input>
+          <el-button type icon="el-icon-search"></el-button>
         </div>
-        <div class id="modelList">
-          <div class="vertical-list">
-            <el-row v-for="model in modelList" :key="model.id">
-              <el-col>
-                <el-card :body-style="{ padding: '0px',display:'block' }">
-                  <img
-                    v-bind:src="model.src"
-                    onerror="this.src= './static/logo.png'; this.onerror = null;"
-                  />
-                  <div style="padding: 14px;">
-                    <span>{{model.id}}</span>
-                    <span>{{model.key}}</span>
-                    <span>{{model.des}}</span>
-                    <div class="bottom clearfix">
-                      <el-button type="text" class="button">修改</el-button>
-                    </div>
-                  </div>
-                </el-card>
-              </el-col>
-            </el-row>
-          </div>
+        <div>
+          <el-input placeholder="请输入内容" v-model="modelInputUrl" style="width:150px">
+            <template slot="prepend" style="width:20px">Http://</template>
+          </el-input>
+          <el-button type @click="openModelEdtor()" icon="el-icon-lightning"></el-button>
+        </div>
+        <div>
+          <el-button type="success" @click="pushModelNew()" icon="el-icon-magic-stick"></el-button>
+
+          <el-button type icon="el-icon-folder-opened" @click="openFileWin()"></el-button>
+          <input hidden type="file" @change="pushModelByFile()" ref="fileinput" />
         </div>
       </div>
-      <i class="com-fold el-icon-s-fold" @click="openFold()" style=" font-size: 20px;"></i>
+      <div class id="modelList">
+        <div class="vertical-list">
+          <el-row v-for="model in modelList" :key="model.id">
+            <el-col>
+              <el-card :body-style="{ padding: '0px',display:'block' }">
+                <img
+                  v-bind:src="model.src"
+                  onerror="this.src= './static/logo.png'; this.onerror = null;"
+                />
+                <div style="padding: 14px;">
+                  <span>{{model.id}}</span>
+                  <span>{{model.key}}</span>
+                  <span>{{model.des}}</span>
+                  <div class="bottom clearfix">
+                    <el-button type="text" class="button">修改</el-button>
+                  </div>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { defaultXmlStr } from "@/../resources/defaultXmlStr";
+ 
 export default {
+ 
   mounted() {},
   data() {
     return {
-      isComOpen: true,
       modelInputUrl: "",
       modelList: [
         {
           src: "https://tb1.bdstatic.com/tb/%E5%A4%A7%E5%AD%A6.jpg",
           des: "这是第一个描述",
           id: 197
+        },
+        {
+          src: "images/2.jpg",
+          des: "这是第二个描述",
+          id: 198
+        },
+        {
+          src: "images/2.jpg",
+          des: "这是第二个描述",
+          id: 198
+        },
+        {
+          src: "images/2.jpg",
+          des: "这是第二个描述",
+          id: 198
         },
         {
           src: "images/2.jpg",
@@ -121,9 +134,8 @@ export default {
 <style   scoped>
 .model-controller {
   display: flex;
-}
-.open-fold-data {
   flex: auto;
+  flex-direction: column;
 }
 .vertical-list {
   overflow-y: scroll;

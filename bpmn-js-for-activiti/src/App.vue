@@ -39,20 +39,9 @@ export default {
 
 
  <style   scoped>
-#app {
-  height: 100vh;
-  width: 100vw;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 .content {
+  height: 100%;
   display: flex;
   justify-content: flex-start;
-}
-body {
-  margin: 0;
 }
 </style>

@@ -113,7 +113,8 @@ export default {
 </script>
 <style  >
 .container {
-  height: 100%;
+    width: 90%;
+  height: 90%;
 }
 #viewContainer .djs-palette {
   display: none;

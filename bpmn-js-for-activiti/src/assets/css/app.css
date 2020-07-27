@@ -1,10 +1,19 @@
 #app {
-    height: 100vh;
-}
-.content{
-    height: 100vh;
-    width: 100vw;
+    height: 98vh;
+    margin-top: 0.5vh;
+    margin-bottom: 1vh;
+    width: 99vw;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
 }
 body {
+    overflow: hidden;
     height: 100vh;
-}
+    margin: 0;
+
+} 

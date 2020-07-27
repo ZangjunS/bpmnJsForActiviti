@@ -1,19 +1,15 @@
 <template>
   <div>
     <div class="panel">
-      <div style="font-size:20px">{{model.name}}:{{model.id}}</div>
+      <div class="panel-title" style="font-size:20px">{{model.name}}:{{model.id}}</div>
       <div class="containers">
         <div class="canvas" ref="canvas" @keydown.left="ctrlzBack"></div>
         <div id="js-properties-panel"></div>
         <div class="buttons">
-          <li>
-            <ul>
-              <el-button @click="fixZoom()" type="primary" icon="el-icon-aim">重置</el-button>
-            </ul>
-          </li>
+          <el-button @click="fixZoom()" type icon="el-icon-aim">重置</el-button>
         </div>
 
-        <modelOutPutCpt id="model-out-put-com" :model="model"></modelOutPutCpt>
+        <modelOutPutCpt id="model-out-put-com" :modeler="bpmnModeler" :model="model"></modelOutPutCpt>
       </div>
     </div>
   </div>
@@ -53,7 +49,7 @@ export default {
   data() {
     return {
       // bpmn建模器
-      bpmnModeler: null,
+      bpmnModeler: {},
       container: null,
       canvas: null,
       model: {},
@@ -144,7 +140,7 @@ export default {
           var shape = e.element ? elementRegistry.get(e.element.id) : e.shape;
           if (!that.panelDrawing) {
             // that.logTrack(that.model.modelXml);
-            that.model = await that.getModelData();
+            // that.model = await that.getModelData();
             // console.log(that.model);
             console.log(event, e);
             // console.log(shape);
@@ -164,15 +160,6 @@ export default {
       // console.log("pro xml", baseModel);
       return baseModel;
     },
-    logTrack(track) {
-      if (track == this.drawingTracks[this.drawingTracks.length - 1]) {
-        return;
-      }
-      this.drawingTracks.push(track);
-      if (this.drawingTracks.length > 10) {
-        this.drawingTracks.shift();
-      }
-    },
     async ctrlzBack(e) {
       if (e.keyCode == 90 && e.ctrlKey == true && e.shiftKey == true) {
         this.bpmnModeler.get("commandStack").redo();
@@ -181,19 +168,6 @@ export default {
       if (e.keyCode == 90 && e.ctrlKey == true) {
         this.bpmnModeler.get("commandStack").undo();
       }
-      // if (1 == {1:1}[1]) {
-      //   return;
-      // }
-      // if (this.drawingTracks.length == 0) {
-      //   return;
-      // }
-      // console.log("callback");
-      // console.log(this.drawingTracks);
-      // var modelXml = this.drawingTracks.pop();
-      // // console.log("locked");
-      // var success = await this.transformCanvas(modelXml);
-      // this.model = await this.getModelData();
-      // // console.log("draw success", success);
     },
     sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
@@ -209,18 +183,23 @@ export default {
 
 
 <style  >
+.panel {
+  width: 100%;
+  height: 100%;
+}
 .containers {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   justify-content: flex-end;
-  align-content: space-between;
+  /* align-content: space-between; */
   background-color: #ffffff;
   width: 100%;
-  height: 90vh;
+  height: 98%;
 }
 .canvas {
   width: 80%;
-  height: 95%;
+  height: 90%;
   /* float: left; */
   flex: none;
   /* margin-right: 0%; */
@@ -239,7 +218,13 @@ export default {
   border: slategray solid;
   border-radius: 15px;
   overflow-y: scroll;
-  height: 95%;
+  height: 90%;
   width: 20%;
+}
+.buttons {
+  height: 5%;
+}
+#model-out-put-com {
+  height: 5%;
 }
 </style>

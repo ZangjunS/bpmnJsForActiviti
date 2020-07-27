@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store'
 Vue.config.productionTip = false
 import './assets/css/app.css'// app
 import 'element-ui/lib/theme-chalk/index.css';
@@ -22,6 +23,7 @@ import ElementUI from 'element-ui';
 Vue.use(ElementUI);
 new Vue({
     router,
+    store,  //store:store 和router一样，将我们创建的Vuex实例挂载到这个vue实例中
     data() {
         return { rootValue: "this root" }
     },
