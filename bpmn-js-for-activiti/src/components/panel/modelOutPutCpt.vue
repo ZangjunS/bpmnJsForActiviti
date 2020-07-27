@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     saveToBackend() {
-      console.log(this.$store.state.mainPanel.paramOutUrl);
+      console.log(this.$store.mainPanel.paramOutUrl);
 
       // console.log(this.$root.rootValue);
       // if (this.modelOutputBackendUrl == "") {
