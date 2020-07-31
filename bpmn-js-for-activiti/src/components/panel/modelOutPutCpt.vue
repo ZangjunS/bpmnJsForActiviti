@@ -8,7 +8,9 @@
       <i class="el-icon-picture-outline"></i>
     </el-button>
 
-    <el-button @click="saveToBackend()" type icon="el-icon-upload">保存到后端</el-button>
+    <el-button @click="saveToBackend()" type icon="el-icon-upload"
+      >保存到后端</el-button
+    >
 
     <!-- <li>
         <el-input placeholder="请输入内容" v-model="modelOutputBackendUrl" style="width:200px">
@@ -26,7 +28,7 @@ import BpmnInfs from "@/classes/bpmn/BpmnInfs";
 export default {
   props: {
     model: Object,
-    modeler: Object
+    modeler: Object,
   },
   mounted() {},
   data() {
@@ -34,7 +36,8 @@ export default {
   },
   methods: {
     saveToBackend() {
-      console.log(this.$store.mainPanel.paramOutUrl);
+      console.log(this.$store);
+      console.log(this.$store.state.mainPanel.modelOutUrlTpl);
 
       // console.log(this.$root.rootValue);
       // if (this.modelOutputBackendUrl == "") {
@@ -47,10 +50,12 @@ export default {
     },
     saveTo(type) {
       var diagramName = this.model.name;
-      this.modeler["save" + type.toUpperCase()]({ format: true }).then(data => {
-        console.log(data);
-        this.setEncoded(diagramName + "." + type, data[type]);
-      });
+      this.modeler["save" + type.toUpperCase()]({ format: true }).then(
+        (data) => {
+          console.log(data);
+          this.setEncoded(diagramName + "." + type, data[type]);
+        }
+      );
     },
     // 下载为SVG格式,done是个函数，调用的时候传入的
     // saveSvg() {
@@ -89,11 +94,11 @@ export default {
       // console.log("xml", svgObj);
       // console.log("pro xml", baseModel);
       return baseModel;
-    }
-  }
+    },
+  },
 };
 </script>
-<style  >
+<style>
 .buttons {
 }
 .buttons li {

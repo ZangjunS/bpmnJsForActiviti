@@ -1,25 +1,28 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
-const routes = [{
-    path: '/',
-    redirect: '/mainDrawingBoard'
-},
-{
-    path: '/mainDrawingBoard',
-    component: () =>
-        import('./../components/panel/mainPanel')
-},
-{
-    path: '/mainProcessView',
-    component: () =>
-        import('./../components/processview/mainView')
-}
-]
+const routes = [
+  {
+    path: "/",
+    redirect: "/mainDrawingBoard",
+  },
+  {
+    path: "/mainDrawingBoard",
+    component: () => import("./../components/panel/mainPanel"),
+  },
+  {
+    path: "/mainProcessView",
+    component: () => import("./../components/processview/mainView"),
+  },
+  {
+    path: "/set",
+    component: () => import("./../components/setting/settingtest"),
+  },
+];
 
 export default new Router({
-    mode: 'hash',
-    routes
-})
+  mode: "hash",
+  routes,
+});

@@ -63,22 +63,8 @@ export default {
           src: "images/2.jpg",
           des: "这是第二个描述",
           id: 198
-        },
-        {
-          src: "images/2.jpg",
-          des: "这是第二个描述",
-          id: 198
-        },
-        {
-          src: "images/2.jpg",
-          des: "这是第二个描述",
-          id: 198
-        },
-        {
-          src: "images/2.jpg",
-          des: "这是第二个描述",
-          id: 198
         }
+        
       ]
     };
   },

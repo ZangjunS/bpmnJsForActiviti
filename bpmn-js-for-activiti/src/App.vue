@@ -2,18 +2,22 @@
   <div id="app">
     <div class="content">
       <router-view style=" flex: 1;" @initSetting="initSetting"></router-view>
-      <z-fold :defaultShow="false" :foldDir="'hr'" :iconClass="'el-icon-setting'" :fontSize="25">
+      <z-fold
+        :defaultShow="false"
+        :foldDir="'hr'"
+        :iconClass="'el-icon-setting'"
+        :fontSize="25"
+      >
         <div class="buttons" style="width:200px">
-          系统标识
-          <el-input v-model="sysSetting.sysFlag" style="width:200px"></el-input>方法标识
-          <el-input v-model="sysSetting.sysMethod" style="width:200px"></el-input>导入接口
-          <el-input v-model="sysSetting.sysParamInUrl" style="width:200px"></el-input>导出接口
-          <el-input v-model="sysSetting.sysParamOutUrl" style="width:200px"></el-input>
+          
           <router-link to="/mainProcessView">
             <button class="button">跳转到流程查看器</button>
           </router-link>
           <router-link to="/mainDrawingBoard">
             <button class="button">跳转到流程编辑器</button>
+          </router-link>
+          <router-link to="/set">
+            <button class="button">跳转到set</button>
           </router-link>
         </div>
       </z-fold>
@@ -32,13 +36,12 @@ export default {
   methods: {
     initSetting(setting) {
       this.sysSetting = setting;
-    }
-  }
+    },
+  },
 };
 </script>
 
-
- <style   scoped>
+<style scoped>
 .content {
   height: 100%;
   display: flex;

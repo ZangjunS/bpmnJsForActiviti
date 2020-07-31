@@ -34,7 +34,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.iconClass);
+    // console.log(this.iconClass);
     // this.styleObject.justifyContent =
     //   this.foldDir.startsWith("v")  ? "flex-end" : "flex-start";
   },
